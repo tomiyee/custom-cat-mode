@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "type":"module",
+  "type": "module",
   "scripts": {
     "lint": "npx eslint ./src --max-warnings 0",
     "style": "prettier --write ./src",
@@ -30,6 +30,10 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.0",
+    "file-loader": "^6.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }
