@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "type":"module",
   "scripts": {
     "lint": "npx eslint ./src --max-warnings 0",
+    "style": "prettier --write ./src",
     "build": "webpack",
     "dev": "vite"
   },
