@@ -12,5 +12,11 @@
       "matches": ["http://*/*", "https://*/*"],
       "js": ["dist/content.bundle.js"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["dist/public/icons/millie.gif"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
   ]
 }
