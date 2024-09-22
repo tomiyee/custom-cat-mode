@@ -39,6 +39,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.0
+      chrome-types:
+        specifier: ^0.1.306
+        version: 0.1.306
       eslint:
         specifier: ^9.10.0
         version: 9.10.0
@@ -824,6 +827,9 @@ packages:
   chrome-trace-event@1.0.4:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
     engines: {node: '>=6.0'}
+
+  chrome-types@0.1.306:
+    resolution: {integrity: sha512-wm173T0CrSBRs0vSxn5s39WIjlwzQMliCD7TALWqhYMVRC0yeWcnxeYsPGwyffkGOHdqEGIEmXE3X2LRTsZP8w==}
 
   clone-deep@4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==}
@@ -2730,6 +2736,8 @@ snapshots:
       supports-color: 7.2.0
 
   chrome-trace-event@1.0.4: {}
+
+  chrome-types@0.1.306: {}
 
   clone-deep@4.0.1:
     dependencies:
