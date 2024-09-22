@@ -1,41 +1,68 @@
 // These paths are defined in the file-loader section of webpack.config.cjs
 
-/** The location of the millie gif */
-const MILLIE_GIF = 'dist/public/icons/millie.gif';
+console.log('Cat Content Script Loaded');
 
-/** Replaces the src attribute of the image to the given string */
-function replaceImageSrc(image: HTMLImageElement, customImageUrl: string) {
-  image.setAttribute('src', customImageUrl);
+/** The location of the millie gif */
+const MILLIE_GIF = chrome.runtime.getURL('dist/public/icons/millie.gif');
+
+enum Kitty {
+  MANEKI = '.maneki-kitty',
+  KINAKO = '.kinako-kitty',
+  STRIPES = '.stripes-kitty',
+  MIDNIGHT = '.midnight-kitty',
+  FIREFOX = '.firefox-kitty',
+}
+
+const GIF_SUBSTITUTIONS: Record<Kitty, string> = {
+  [Kitty.FIREFOX]: MILLIE_GIF,
+  [Kitty.KINAKO]: MILLIE_GIF,
+  [Kitty.MANEKI]: MILLIE_GIF,
+  [Kitty.MIDNIGHT]: MILLIE_GIF,
+  [Kitty.STRIPES]: MILLIE_GIF,
+};
+
+function waitForHeader() {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) =>
+      mutation.addedNodes.forEach((node) => {
+        if (node instanceof HTMLElement) {
+          if (
+            node.id === 'header' ||
+            node.querySelectorAll('#header').length !== 0
+          ) {
+            console.log('Header loaded');
+            observer.disconnect();
+            observeNewImages();
+          }
+        }
+      }),
+    );
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // Function to observe for new image elements being added to the DOM
-function observeNewImages(customImageUrl: string) {
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      console.log(mutation);
-      mutation.addedNodes.forEach((node) => {
-        // If a new image is added to the DOM
-        if (node instanceof HTMLImageElement)
-          replaceImageSrc(node, customImageUrl);
-
-        // If other elements (like divs) are added, check their children
-        if (node instanceof HTMLElement) {
-          const newImages = node.querySelectorAll('img');
-          newImages.forEach((img) => replaceImageSrc(img, customImageUrl));
-        }
+function observeNewImages() {
+  const observer = new MutationObserver(() => {
+    Object.entries(GIF_SUBSTITUTIONS).forEach(([kitty, substitution]) => {
+      const elems = document.querySelectorAll<HTMLDivElement>(kitty);
+      elems.forEach((elem) => {
+        const target = `url(${substitution})`;
+        if (elem.style.backgroundImage !== target)
+          elem.style.backgroundImage = target;
       });
     });
   });
 
-  // Observe the entire document for changes in child nodes
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // Replace existing images
-  const images = document.querySelectorAll<HTMLImageElement>('img');
-  images.forEach((img) => replaceImageSrc(img, gifUrl));
+  const header = document.getElementById('header');
+  if (header === null) {
+    console.error('Could not find the header');
+    return;
+  }
+  observer.observe(header, { childList: true, subtree: true });
 }
 
-const gifUrl = chrome.runtime.getURL(MILLIE_GIF);
-
 // Start observing the DOM for new images
-observeNewImages(gifUrl);
+window.addEventListener('load', () => {
+  waitForHeader();
+});

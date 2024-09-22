@@ -9,14 +9,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["dist/content.bundle.js"]
+      "matches": ["https://colab.research.google.com/*"],
+      "js": ["dist/content.bundle.js"],
+      "runs_at": "document_idle"
     }
   ],
   "web_accessible_resources": [
     {
       "resources": ["dist/public/icons/millie.gif"],
-      "matches": ["http://*/*", "https://*/*"]
+      "matches": ["https://colab.research.google.com/*"]
     }
   ]
 }
